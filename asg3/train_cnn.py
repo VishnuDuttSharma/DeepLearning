@@ -127,6 +127,7 @@ def train(trainX, trainY):
     sess = tf.Session(config=config)
 
     # sess = tf.InteractiveSession()
+
     sess.run(init)
     
     
@@ -135,7 +136,7 @@ def train(trainX, trainY):
     batch_size = 100
     
     
-    while epoch < 2:
+    while epoch < 3:
         step = 1
         train_X, test_X, train_y, test_y = train_test_split(trainX, train_Y_mod, test_size=0.20, random_state=random.randint(1,99))
         # Keep training until reach max iterations
@@ -143,8 +144,8 @@ def train(trainX, trainY):
 #             print("Range: ", k*batch_size, " to ", (k+1)*batch_size)
             
             batch_x, batch_y = train_X[k*batch_size : (k+1)*batch_size], train_y[k*batch_size : (k+1)*batch_size]
-            train_step.run(feed_dict={x: batch_x, y_: batch_y, keep_prob: 0.5})
-            train_accuracy = accuracy.eval(feed_dict={x:batch_x, y_: batch_y, keep_prob: 1.0})
+            sess.run(train_step, feed_dict={x: batch_x, y_: batch_y, keep_prob: 0.5})
+            train_accuracy = sess.run(accuracy, feed_dict={x:batch_x, y_: batch_y, keep_prob: 1.0})
             
             if step % 100 == 0:
                 print("Epoch: %d, step %d, training accuracy %g"%(epoch, k, train_accuracy*100))
@@ -175,7 +176,7 @@ def train(trainX, trainY):
     sess.close()
 
 def test(testX):
-    download = False
+    download = True
     if download:
         downloadData_CNN()
     
