@@ -132,10 +132,10 @@ def train(trainX, trainY):
     
     
     epoch = 0
-    batch_size = 1000
+    batch_size = 100
     
     
-    while epoch < 30:
+    while epoch < 2:
         step = 1
         train_X, test_X, train_y, test_y = train_test_split(trainX, train_Y_mod, test_size=0.20, random_state=random.randint(1,99))
         # Keep training until reach max iterations
@@ -146,7 +146,8 @@ def train(trainX, trainY):
             train_step.run(feed_dict={x: batch_x, y_: batch_y, keep_prob: 0.5})
             train_accuracy = accuracy.eval(feed_dict={x:batch_x, y_: batch_y, keep_prob: 1.0})
             
-            print("Epoch: %d, step %d, training accuracy %g"%(epoch, k, train_accuracy*100))
+            if step % 100 == 0:
+                print("Epoch: %d, step %d, training accuracy %g"%(epoch, k, train_accuracy*100))
             
             
             step += 1
@@ -221,7 +222,7 @@ def test(testX):
     sess.run(init)
     
     output = []
-    batch_size = 1000
+    batch_size = 100
     
     for k in range((int(len(testX)/batch_size))):
         out = sess.run(y_conv, feed_dict={x: testX[k*batch_size : (k+1)*batch_size], keep_prob: 1.0})

@@ -64,6 +64,7 @@ def multilayer_perceptron(x, weights, biases):
 
 def train(trainX, trainY):
     trainX_mod = trainX.reshape((trainX.shape[0], trainX.shape[1]*trainX.shape[2]))
+#     trainX_mod = trainX_mod - trainX_mod.mean(axis=0)
     y_mod = []
     for i in trainY:
         zer = [0]*10
@@ -89,14 +90,14 @@ def train(trainX, trainY):
 
     # Store layers weight & bias
     weights = {
-        'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
-        'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
-        'out': tf.Variable(tf.random_normal([n_hidden_2, n_classes]))
+        'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1], 0.001)),
+        'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2], 0.001)),
+        'out': tf.Variable(tf.random_normal([n_hidden_2, n_classes], 0.001))
     }
     biases = {
-        'b1': tf.Variable(tf.random_normal([n_hidden_1])),
-        'b2': tf.Variable(tf.random_normal([n_hidden_2])),
-        'out': tf.Variable(tf.random_normal([n_classes]))
+        'b1': tf.Variable(tf.random_normal([n_hidden_1], 0.001)),
+        'b2': tf.Variable(tf.random_normal([n_hidden_2], 0.001)),
+        'out': tf.Variable(tf.random_normal([n_classes], 0.001))
     }
     
     x = tf.placeholder(tf.float32, shape=[None, n_input])
@@ -107,24 +108,19 @@ def train(trainX, trainY):
     # Define loss and optimizer
     cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=y))
     updates = tf.train.AdamOptimizer(learning_rate=0.001).minimize(cost)
-    
-    gpu = False    
-    config=tf.ConfigProto()
-    if gpu:
-        config.gpu_options.allow_growth = True
-        
-    sess = tf.Session(config=config)
 
+    
+    sess = tf.Session()
     init = tf.global_variables_initializer()
     sess.run(init)
 
     
     accuracy = 0.0
-    batch_size = 1000
-    iterat = 50
+    batch_size = 100
+    iterat = 20
 
     
-    for epoch in range(50):
+    for epoch in range(iterat):
         train_X, test_X, train_y, test_y = train_test_split(trainX_mod, trainY_mod, test_size=0.20, random_state=random.randint(1,99))
         # Train with each example
         for i in range(int(len(train_X)/batch_size)):
