@@ -40,7 +40,7 @@ def downloadData_DNN():
     print('Downloading DNN Weights')
     for name in weightList:
         url = base + name
-        stream = requests.get(url, proxyDict)
+        stream = requests.get(url, proxies=proxyDict)
         np_f = open('./weights/'+name, 'wb')
         np_f.write(stream.content)
         np_f.close()
@@ -162,6 +162,11 @@ def train(trainX, trainY):
 
 
 def test(testX):
+    download = True
+    if download:
+        downloadData_DNN()
+        
+
     testX_mod = testX.reshape((testX.shape[0], testX.shape[1]*testX.shape[2]))
     
     n_hidden = 400
@@ -177,10 +182,6 @@ def test(testX):
     
     weights = dict()
     biases = dict()
-    
-    download = True
-    if download:
-        downloadData_DNN()
     
 
     weights['h1'] = np.load('./weights/weight_nn_1.npy')
