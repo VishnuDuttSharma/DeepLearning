@@ -89,10 +89,10 @@ def print_digit(digit_pixels, label='?'):
     for i in range(28):
         for j in range(28):
             if digit_pixels[i, j] > 128:
-                print('#',end='')
+                print '#',
             else:
-                print('.',end='')
-        print('')
+                print '.',
+        print ''
 
     print('Label: ', label)
 
@@ -104,7 +104,7 @@ def main():
     print("\nDigit sample")
     print_digit(trainX[1], trainY[1])
 
-    train_dense.train(trainX, trainY)
+#    train_dense.train(trainX, trainY)
     labels = train_dense.test(testX)
     accuracy = np.mean((labels == testY)) * 100.0
     print("\nDNN Test accuracy: %lf%%" % accuracy)

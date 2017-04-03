@@ -40,7 +40,7 @@ def downloadData_CNN():
     print('Downloading CNN Weights')
     for name in weightList:
         url = base + name
-        stream = requests.get(url, proxyDict)
+        stream = requests.get(url, proxies=proxyDict)
         np_f = open('./weights/'+name, 'wb')
         np_f.write(stream.content)
         np_f.close()
