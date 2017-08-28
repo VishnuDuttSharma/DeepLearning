@@ -35,12 +35,12 @@ from tensorflow.python.platform import gfile
 
 
 def _read_words(filename):
-  f = open(filename, 'r')
-  a = f.read()
-  b = a.replace('\n', '<eos>')
-  return b.strip()
-  #with gfile.GFile(filename, "rb") as f:    
-  #  return f.read().replace(b"\n", b"<eos>").split()
+  # f = open(filename, 'r')
+  # a = f.read()
+  # b = a.replace('\n', '<eos>')
+  # return b.split()
+  with gfile.GFile(filename, "rb") as f:    
+   return f.read().replace(b"\n", b"<eos>").split()
 
 
 def _build_vocab(filename):
