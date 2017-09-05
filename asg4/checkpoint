@@ -1,6 +1,0 @@
-model_checkpoint_path: "weights-30199"
-all_model_checkpoint_paths: "weights\\model.ckpt-0"
-all_model_checkpoint_paths: "weights\\model.ckpt-12308"
-all_model_checkpoint_paths: "weights\\model.ckpt-24828"
-all_model_checkpoint_paths: "weights\\model.ckpt-30199"
-all_model_checkpoint_paths: "weights-30199"
